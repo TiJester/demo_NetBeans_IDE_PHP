@@ -1,19 +1,3 @@
-<html> 
-    <head> 
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8"> 
-        <title></title> 
-    </head> 
-    <body>
-        Добро пожаловать!<br>
-        <form action="createNewWisher.php" method="POST">
-        Твое имя: <input type="text" name="user"/><br/>
-        Пароль: <input type="password" name="password"/><br/>
-        Пожалуйста, подтвердите свой пароль: <input type="password" name="password2"/><br/>
-        <input type="submit" value="Регистрация"/>
-        </form>
-    </body> 
-</html>
-
 <?php
 /** учетные данные подключения к базе данных */
 $dbHost="localhost"; //on MySql 
@@ -81,3 +65,49 @@ $password2IsEmpty = false;
         }
     }
 ?>
+
+<html> 
+    <head> 
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"> 
+        <title></title> 
+    </head> 
+    <body>
+        Добро пожаловать!<br>
+        <form action="createNewWisher.php" method="POST">
+        Твое имя: <input type="text" name="user"/><br/>
+    <?php
+    if ($userIsEmpty) 
+        {
+        echo ("Введите пожайлуста свое имя!");
+        echo ("<br/>");
+        }                
+    if (!$userNameIsUnique) 
+        {
+        echo ("Пользователь с таким именем уже существет");
+        echo ("<br/>");
+        }
+    ?> 
+        Пароль: <input type="password" name="password"/><br/>
+    <?php 
+    if ($passwordIsEmpty) 
+        {
+        echo ("Введите пожайлуста пароль!"); echo ("<br/>"); 
+        } 
+    ?>
+        Пожалуйста, подтвердите свой пароль: <input type="password" name="password2"/><br/>
+    <?php
+     if ($password2IsEmpty) 
+        {
+         echo ("Подтвердите пароль");
+         echo ("<br/>");    
+        }                
+     if (!$password2IsEmpty && !$passwordIsValid) 
+        {
+         echo  ("Пароли не совпадают");
+         echo ("<br/>");  
+        }                 
+    ?>
+        <input type="submit" value="Регистрация"/>
+        </form>
+    </body> 
+</html>
