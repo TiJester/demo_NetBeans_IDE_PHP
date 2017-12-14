@@ -1,1 +1,3 @@
-https://netbeans.org/kb/docs/php/wish-list-lesson2.html#createNewFile
+https://netbeans.org/kb/docs/php/wish-list-lesson4.html
+
+Instantiating the WishDB class
