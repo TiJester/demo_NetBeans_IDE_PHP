@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <body>
         <form name="wishList" action="wishlist.php">
             Показать список желаний: <input type="text" name="user" value="" />
-            <input type="submit" value="GO" />
+            <input type="submit" value="Показать" />
         </form>
         <br>У Вас пока нет списка желаний?! <a href="createNewWisher.php">Создать сейчас</a> 
 <!--        Форма входа-->
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 if (!$logonSuccess) echo "Недопустимое имя и / или пароль"; 
                 } 
                 ?>
-            </p></b>    
+            </b></p>    
             <input type="submit" value="Изменить список желаний">
             </div>
         </form>

@@ -10,21 +10,30 @@
         exit;         
         }
 ?>
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//RU">
 <html>
     <head>
-        <meta charset="UTF-8">
-        <title></title>
+
+       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
+        <table border="black">
+        <tr><th>Пункт</th><th>Срок</th></tr>
         <?php
-        // put your code here
+        require_once("Includes/db.php");
+        $wisherID = WishDB::getInstance()->get_wisher_id_by_name($_SESSION["user"]);
+        $result = WishDB::getInstance()->get_wishes_by_wisher_id($wisherID);
+        while($row = mysqli_fetch_array($result)) {
+            echo "<tr><td>" . htmlentities($row['description']) . "</td>";
+            echo "<td>" . htmlentities($row['due_date']) . "</td></tr>\n";
+        }
         ?>
-        
+        </table>
+        <form name="addNewWish" action="editWish.php">            
+            <input type="submit" value="Добавить желание">
+        </form>
+        <form name="backToMainPage" action="index.php">
+            <input type="submit" value="На главную"/>
+        </form>
     </body>
 </html>

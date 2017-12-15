@@ -63,5 +63,8 @@ require_once ("includes/db.php");
 //        mysqli_close($con); // закрытие соеденения с БД
         ?>
         </table>
+        <form name="backToMainPage" action="index.php">
+            <input type="submit" value="На главную"/>
+        </form>
     </body>
 </html>

@@ -129,5 +129,9 @@ $password2IsEmpty = false;
     ?>
         <input type="submit" value="Регистрация"/>
         </form>
+        
+        <form name="backToMainPage" action="index.php">
+            <input type="submit" value="На главную"/>
+        </form>
     </body> 
 </html>
