@@ -69,6 +69,7 @@ $password2IsEmpty = false;
     if (!$userIsEmpty && $userNameIsUnique && !$passwordIsEmpty && !$password2IsEmpty && $passwordIsValid) 
         {
         WishDB::getInstance()->create_wisher($_POST["user"], $_POST["password"]);
+        session_start(); $_SESSION['user'] = $_POST['user']; // работа с сессией
         header('Location: editWishList.php' );
         exit;
         }

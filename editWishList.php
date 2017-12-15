@@ -1,3 +1,15 @@
+<?php
+    session_start();
+    if (array_key_exists("user", $_SESSION)) 
+        {
+        echo "Привет " . $_SESSION['user'];
+        }
+    else 
+        { 
+        header('Location: index.php'); 
+        exit;         
+        }
+?>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -10,9 +22,9 @@ and open the template in the editor.
         <title></title>
     </head>
     <body>
-        Привет!!!
         <?php
         // put your code here
         ?>
+        
     </body>
 </html>
