@@ -1,4 +1,7 @@
 <?php
+// подключаем класс WishDB из db.php
+require_once ("includes/db.php");
+
 /** учетные данные подключения к базе данных */
 $dbHost="localhost"; //on MySql 
 $dbXeHost="localhost/XE";
@@ -20,23 +23,31 @@ $password2IsEmpty = false;
             $userIsEmpty = true; 
             }
             
-    /** Создание соединения с базой данных */
-    $con = mysqli_connect($dbHost, $dbUsername, $dbPassword);
-    if (!$con) 
+//  Оптимизация кода для вызова из класса 15122017 
+    $wisherID = WishDB::getInstance()->get_wisher_id_by_name($_POST["user"]);
+    if ($wisherID) 
         {
-        exit('Connect Error (' . mysqli_connect_errno() . ') '. mysqli_connect_error());
+       $userNameIsUnique = false;
         }
-    /** установлен набор клиентских символов по умолчанию */ 
-    mysqli_set_charset($con, 'utf-8'); 
-    /** Убедитесь, что пользователь, чье имя совпадает с полем пользователя, уже существует */
-    mysqli_select_db($con, "wishlist");
-    $user = mysqli_real_escape_string($con, $_POST["user"]);
-    $wisher = mysqli_query($con, "SELECT id FROM wishers WHERE name='".$user."'");
-    $wisherIDnum=mysqli_num_rows($wisher);
-    if ($wisherIDnum) 
-        {
-        $userNameIsUnique = false;
-        }  
+            
+//    /** Создание соединения с базой данных */
+//    $con = mysqli_connect($dbHost, $dbUsername, $dbPassword);
+//    if (!$con) 
+//        {
+//        exit('Connect Error (' . mysqli_connect_errno() . ') '. mysqli_connect_error());
+//        }
+//    /** установлен набор клиентских символов по умолчанию */ 
+//    mysqli_set_charset($con, 'utf-8'); 
+//    /** Убедитесь, что пользователь, чье имя совпадает с полем пользователя, уже существует */
+//    mysqli_select_db($con, "wishlist");
+//    $user = mysqli_real_escape_string($con, $_POST["user"]);
+//    $wisher = mysqli_query($con, "SELECT id FROM wishers WHERE name='".$user."'");
+//    $wisherIDnum=mysqli_num_rows($wisher);
+//    if ($wisherIDnum) 
+//        {
+//        $userNameIsUnique = false;
+//        }  
+            
     /** Проверьте, правильно ли введен пароль и подтверждено ли оно */
     if ($_POST["password"]=="") 
         {
@@ -52,17 +63,25 @@ $password2IsEmpty = false;
         }
 /** Убедитесь, что логические значения показывают, что входные данные были успешно проверены. 
  ** Если данные были успешно проверены, добавьте их как новую запись в базу данных «wishers». 
- ** После добавления новой записи закройте соединение и перенаправьте приложение на editWishList.php. */ 
+ ** После добавления новой записи закройте соединение и перенаправьте приложение на editWishList.php. */
+        
+//  Оптимизация кода для вызова из класса 15122017 
     if (!$userIsEmpty && $userNameIsUnique && !$passwordIsEmpty && !$password2IsEmpty && $passwordIsValid) 
         {
-        $password = mysqli_real_escape_string($con, $_POST['password']);
-        mysqli_select_db($con, "wishlist");
-        mysqli_query($con, "INSERT wishers (name, password) VALUES ('" . $user . "', '" . $password . "')");
-        mysqli_free_result($wisher);
-        mysqli_close($con);
-        header('Location: editWishList.php');
+        WishDB::getInstance()->create_wisher($_POST["user"], $_POST["password"]);
+        header('Location: editWishList.php' );
         exit;
         }
+//    if (!$userIsEmpty && $userNameIsUnique && !$passwordIsEmpty && !$password2IsEmpty && $passwordIsValid) 
+//        {
+//        $password = mysqli_real_escape_string($con, $_POST['password']);
+//        mysqli_select_db($con, "wishlist");
+//        mysqli_query($con, "INSERT wishers (name, password) VALUES ('" . $user . "', '" . $password . "')");
+//        mysqli_free_result($wisher);
+//        mysqli_close($con);
+//        header('Location: editWishList.php');
+//        exit;
+//        }
     }
 ?>
 
@@ -78,12 +97,12 @@ $password2IsEmpty = false;
     <?php
     if ($userIsEmpty) 
         {
-        echo ("Введите пожайлуста свое имя!");
+        echo ("<b style='color:#ff0900'>Введите пожайлуста свое имя!</b>");
         echo ("<br/>");
         }                
     if (!$userNameIsUnique) 
         {
-        echo ("Пользователь с таким именем уже существет");
+        echo ("<b style='color:#ff0900'>Пользователь с таким именем уже существет</b>");
         echo ("<br/>");
         }
     ?> 
@@ -91,19 +110,19 @@ $password2IsEmpty = false;
     <?php 
     if ($passwordIsEmpty) 
         {
-        echo ("Введите пожайлуста пароль!"); echo ("<br/>"); 
+        echo ("<b style='color:#ff0900'>Введите пожайлуста пароль!</b>"); echo ("<br/>"); 
         } 
     ?>
         Пожалуйста, подтвердите свой пароль: <input type="password" name="password2"/><br/>
     <?php
      if ($password2IsEmpty) 
         {
-         echo ("Подтвердите пароль");
+         echo ("<b style='color:#ff0900'>Подтвердите пароль</b>");
          echo ("<br/>");    
         }                
      if (!$password2IsEmpty && !$passwordIsValid) 
         {
-         echo  ("Пароли не совпадают");
+         echo  ("<b style='color:#ff0900'>Пароли не совпадают</b>");
          echo ("<br/>");  
         }                 
     ?>
