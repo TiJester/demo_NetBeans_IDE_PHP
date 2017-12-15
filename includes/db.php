@@ -103,4 +103,15 @@
             }
         }
         
+    //обновление желаний
+    public function update_wish($wishID, $description, $duedate){ $description = $this->real_escape_string($description);
+        if ($duedate==''){
+        $this->query("UPDATE wishes SET description = '" . $description . "',
+        due_date = NULL WHERE id = " . $wishID);
+        } else
+        $this->query("UPDATE wishes SET description = '" . $description .
+        "', due_date = " . $this->format_date_for_sql($duedate)
+        . " WHERE id = " . $wishID);
+}
+        
     }

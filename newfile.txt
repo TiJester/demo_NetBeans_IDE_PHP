@@ -1,3 +1,3 @@
-https://netbeans.org/kb/docs/php/wish-list-lesson4.html
+https://netbeans.org/kb/docs/php/wish-list-lesson7.html
 
-Instantiating the WishDB class
+To update editWish.php so that it verifies if a wish is new and updates it if it is not new:

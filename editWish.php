@@ -9,23 +9,15 @@
         $wisherID = WishDB::getInstance()->get_wisher_id_by_name($_SESSION['user']);
 
         $wishDescriptionIsEmpty = false;
-        if ($_SERVER['REQUEST_METHOD'] == "POST")
-            {
-            if (array_key_exists("back", $_POST)) 
-                {
-               header('Location: editWishList.php' ); 
-               exit;
-                } else
-            if ($_POST['wish'] == "") 
-                {
-                $wishDescriptionIsEmpty =  true;
-                } else 
-                {
-               WishDB::getInstance()->insert_wish($wisherID, $_POST['wish'], $_POST['dueDate']);
+        if ($_SERVER["REQUEST_METHOD"] == "POST")
+        $wish = array("id" => $_POST["wishID"], "description" => 
+                $_POST["wish"], "due_date" => $_POST["dueDate"]);
+            else if (array_key_exists("wishID", $_GET))
+            $wish = mysqli_fetch_array(WishDB::getInstance()->get_wish_by_wish_id($_GET["wishID"]));
+            else
+            $wish = array("id" => "", "description" => "", "due_date" => "");
                header('Location: editWishList.php' );
-               exit;
-                }
-            } 
+               exit;            
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -44,6 +36,7 @@
         "due_date" => ""); 
         ?>
         <form name="editWish" action="editWish.php" method="POST">
+            <input type="hidden" name="wishID" value="<?php echo $wish["id"];?>" />
             Опишите свое желание: <input type="text" name="wish"  value="<?php echo $wish['description'];?>" /><br/>
             <?php  if ($wishDescriptionIsEmpty) echo "Введите описание<br/>";?>
             Когда вы хотите его получить? <input type="text" name="dueDate" value="<?php echo $wish['due_date']; ?>"/><br/>
