@@ -13,16 +13,16 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//RU">
 <html>
     <head>
-
        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
         <table border="black">
-        <tr><th>Пункт</th><th>Срок</th></tr>
+        <tr><th>Пункт</th><th>Срок</th><th>Редактировать</th><th>Удалить</th></tr>
         <?php
         require_once("Includes/db.php");
         $wisherID = WishDB::getInstance()->get_wisher_id_by_name($_SESSION["user"]);
         $result = WishDB::getInstance()->get_wishes_by_wisher_id($wisherID);
+        
         while($row = mysqli_fetch_array($result)): 
             echo "<tr><td>" . htmlentities($row['description']) . "</td>";
             echo "<td>" . htmlentities($row['due_date']) . "</td>";
@@ -35,6 +35,13 @@
                 <input type="submit" name="editWish" value="Редактировать">
             </form>
         </td>
+        <td>
+            <form name="deleteWish" action="deleteWish.php" method="POST">
+                <input type="hidden" name="wishID" value="<?php echo $wishID; ?>"/>
+                <input type="submit" name="deleteWish" value="Удалить"/>
+            </form>
+        </td>
+    
         <?php
             echo "</tr>\n";
             endwhile;

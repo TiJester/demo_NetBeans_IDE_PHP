@@ -102,16 +102,27 @@
             return $dateParts["year"]*10000 + $dateParts["month"]*100 + $dateParts["day"];
             }
         }
-        
-    //обновление желаний
-    public function update_wish($wishID, $description, $duedate){ $description = $this->real_escape_string($description);
-        if ($duedate==''){
-        $this->query("UPDATE wishes SET description = '" . $description . "',
-        due_date = NULL WHERE id = " . $wishID);
+         
+    //Чтобы обновить editWish.php, чтобы он проверял, является ли желание новым и обновляет его, если оно не является новым:
+    public function update_wish($wishID, $description, $duedate)
+        {
+        $description = $this->real_escape_string($description);
+        if ($duedate=='')
+        {
+            $this->query("UPDATE wishes SET description = '" . $description . "', due_date = NULL WHERE id = " . $wishID);
         } else
-        $this->query("UPDATE wishes SET description = '" . $description .
-        "', due_date = " . $this->format_date_for_sql($duedate)
-        . " WHERE id = " . $wishID);
-}
+            $this->query("UPDATE wishes SET description = '" . $description . "', due_date = " . $this->format_date_for_sql($duedate). " WHERE id = " . $wishID);
+        }   
         
-    }
+    //Добавьте функцию get_wish_by_wish_id
+    public function get_wish_by_wish_id ($wishID) 
+        {
+        return $this->query("SELECT id, description, due_date FROM wishes WHERE id = " . $wishID);
+        }        
+
+    // функция удаления
+    function delete_wish ($wishID){
+        $this->query("DELETE FROM wishes WHERE id = " . $wishID);
+}
+
+}
