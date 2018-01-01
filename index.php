@@ -47,7 +47,7 @@ function showHideShowWishListForm() {
     <body>
         <div class="showWishList">
         <input type="submit" name="showWishList" value="Показать список желаний >>" onclick="javascript:showHideShowWishListForm()"/>
-        <form name="wishList" action="wishlist.php" method="GET" style="visibility:hidden>
+        <form name="wishList" action="wishlist.php" method="GET" style="visibility:hidden">
             <input type="text" name="user" />
             <input type="submit" value="Показать" />
         </form>
